@@ -29,32 +29,31 @@
   <div class="loading-bar"></div>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.10.4/gsap.min.js"></script>
   <script>
-    let playbtn = document.querySelector('.soundbtn')
-    let audioElment = document.querySelector('audio')
-    let audioPlaying = true;
-    audioElment.play();
-    playbtn.addEventListener("click", pauseAudio)
-    window.addEventListener("click",  audioElment.play())
+    // let playbtn = document.querySelector('.soundbtn')
+    // let audioElment = document.querySelector('audio')
+    // let audioPlaying = true;
+    // audioElment.play();
+    // playbtn.addEventListener("click", pauseAudio)
+    // window.addEventListener("click",  audioElment.play())
 
-    if(!audioElment.paused){
-      playbtn.classList.add("active")
-    }
+    // if(!audioElment.paused){
+    //   playbtn.classList.add("active")
+    // }
 
-    function pauseAudio(){
-      if(audioPlaying)
-      {
-        audioElment.pause()
-        audioPlaying = false;
-        playbtn.classList.remove("active")
-        console.log("ispaused",audioElment.paused);
-      } else {
-        audioElment.play()
-        audioPlaying = true;
-        playbtn.classList.add("active")
-        console.log("ispaused",audioElment.paused);
-      }
-    }
-    console.log(audioElment);
+    // function pauseAudio(){
+    //   if(audioPlaying)
+    //   {
+    //     audioElment.pause()
+    //     audioPlaying = false;
+    //     playbtn.classList.remove("active")
+    //     console.log("ispaused",audioElment.paused);
+    //   } else {
+    //     audioElment.play()
+    //     audioPlaying = true;
+    //     playbtn.classList.add("active")
+    //     console.log("ispaused",audioElment.paused);
+    //   }
+    // }
   </script>
 </body>
 </html>

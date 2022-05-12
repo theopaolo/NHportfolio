@@ -80,9 +80,9 @@ var h = screen.height;
 var r = gcd (w,h);
 // console.log(r, 'aspect :', w/r,":",h/r, "dimension :", w, h);
 
-let imagesArrayUrl = [
-  '/sans+titre-1.jpg',
+let myImages = [
   '/sans+titre-2.jpg',
+  '/sans+titre-1.jpg',
   '/sans+titre-3.jpg',
   '/sans+titre-4.jpg',
   '/sans+titre-5.jpg',
@@ -109,118 +109,60 @@ let imagesArrayUrl = [
   '/sans+titre-28.jpg',
   '/sans+titre-29.jpg',
   '/sans+titre-30.jpg',
+  '/sans+titre-31.jpg',
+  '/sans+titre-32.jpg',
+  '/sans+titre-33.jpg',
+  '/sans+titre-34.jpg',
+  '/sans+titre-35.jpg',
+  '/sans+titre-36.jpg',
+  '/sans+titre-37.jpg',
+  '/sans+titre-38.jpg',
+  '/sans+titre-39.jpg',
+  '/sans+titre-40.jpg',
+  '/sans+titre-41.jpg',
+  '/sans+titre-42.jpg',
+  '/sans+titre-43.jpg',
+  '/sans+titre-44.jpg',
+  '/sans+titre-45.jpg',
+  '/sans+titre-46.jpg',
+  '/sans+titre-47.jpg',
 ]
-
 
 /**
  * Create Objects
  */
 
- //initial offset so does not start in middle.
- let imgtext = []
+//initial offset so does not start in middle.
+let imgtext = []
+let phi = 0
+let theta = 0
 
- function randomIntFromInterval(min, max) { // min and max included
-  return Math.floor(Math.random() * (max - min + 1) + min)
-}
+let planeGeometry = new THREE.PlaneGeometry(16, 9);
 
- for(let i = 0; i < imagesArrayUrl.length; i++){
-    imgtext.push(textureLoader.load(imagesArrayUrl[i]))
+let goldNum = 1.618033988749895
+for (let i = 0; i < myImages.length; i ++) {
+    // Load images as texture
+    imgtext.push(textureLoader.load(myImages[i]))
     imgtext[i].generateMipmaps = false
 
-    let geometry = new THREE.PlaneGeometry(16,9,10);
-    let material = new THREE.MeshBasicMaterial({ map: imgtext[i] })
-    let mesh  = new THREE.Mesh(geometry, material);
-    let w = imgtext[i];
-    console.log("mat w",w);
 
-    material.side = THREE.DoubleSide
+    // Create planeMaterial and map images texture
+    let planeMaterial = new THREE.MeshBasicMaterial({ map: imgtext[i] })
+        planeMaterial.side = THREE.DoubleSide
+    let planeMesh  = new THREE.Mesh(planeGeometry, planeMaterial);
 
-    mesh.rotation.x = (randomIntFromInterval(-0.2, 0.2));
-    mesh.rotation.y = (randomIntFromInterval(-0.2, 0.2));
-    mesh.position.x = ( Math.random() * 300 - 100 );
-    mesh.position.y = ( Math.random() * 300 - 100 );
-    mesh.position.z = ( Math.random() * 200 - 200);
-    mesh.scale.x = Math.random() * 2 + 1;
-    mesh.scale.y = Math.random() * 2 + 1;
-    mesh.updateMatrixWorld()
- };
 
-  const geometry = new THREE.SphereGeometry( 5, 8 , 8 );
-  const material = new THREE.MeshBasicMaterial();
-  material.transparent = true
-  material.opacity = 0.0
-  const sphere = new THREE.Mesh( geometry, material );
+    // Position planes
+    theta = 2 * Math.PI * i / goldNum
+    phi = Math.acos(1-2 * (i+ 0.5)/myImages.length )
 
- function randomSpherePoint(radius) {
-  //pick numbers between 0 and 1
-  let u = Math.random();
-  let v = Math.random();
-  // create random spherical coordinate
-  let theta = 2 * Math.PI * u;
-  let phi = Math.acos(2 * v - 1);
-  return new THREE.Spherical(radius + 0.1, phi, theta);
+    let positionSphere = new THREE.Spherical(50, phi, theta)
+
+    planeMesh.position.setFromSpherical(positionSphere);
+    planeMesh.lookAt(planeMesh.position.clone().setLength(3));
+
+    scene.add(planeMesh);
 }
-
-let planes = [];
-let imgsW = []
-let theta = 0 ;
-let phi = 0;
-
-for (let i = 0; i < imagesArrayUrl.length; i++) {
-  imgtext.push(textureLoader.load(imagesArrayUrl[i], imgSize))
-  imgtext[i].generateMipmaps = false
-
-  function imgSize(tex){
-    imgsW.push(tex.image.width)
-  }
-
-  let geometry = new THREE.PlaneGeometry(16,9,10);
-  let material = new THREE.MeshBasicMaterial({ map: imgtext[i] })
-  material.side = THREE.DoubleSide
-
-  let plane  = new THREE.Mesh(geometry, material);
-  let positionSphere = new THREE.Spherical(50, phi, theta)
-  const pt = positionSphere;
-  plane.position.setFromSpherical(pt);
-  plane.lookAt(plane.position.clone().setLength(3));
-  phi += Math.acos(2 * 0.5 - 1) + 2
-  theta += (1 * Math.PI) + 2
-
-  planes.push(plane);
-
-  sphere.add(plane);
-}
-
-scene.add(sphere)
-/**
- * Create videoTextures
- */
-let video = document.getElementById( 'video' );
-video.load()
-video.play();
-
-let vidtexture = new THREE.VideoTexture( video );
-let vidGeo = new THREE.PlaneBufferGeometry( 16, 9, 10);
-let materialVideo = new THREE.MeshBasicMaterial( { map: vidtexture , side: THREE.DoubleSide } );
-let vidMesh = new THREE.Mesh( vidGeo, materialVideo);
-
-let positionSphere = new THREE.Spherical(30, phi, theta)
-const pt = positionSphere;
-vidMesh.position.setFromSpherical(pt);
-vidMesh.lookAt(vidMesh.position.clone().setLength(3));
-phi += Math.acos(2 * 0.5 - 1) + 2
-theta += (1 * Math.PI) + 2
-
-scene.add( vidMesh );
-
-/**
-* Sphere
-*/
-
-// const sphereGeometry = new THREE.SphereGeometry(5, 32, 32);
-// const sphereMaterial = new THREE.MeshBasicMaterial({ color: 0xffff00 })
-// const sphereMesh = new THREE.Mesh(sphereGeometry, sphereMaterial)
-// scene.add(sphereMesh);
 
 /**
  * Sizes
@@ -303,7 +245,7 @@ const tick = () =>
 {
     const elapsedTime = clock.getElapsedTime()
 
-    sphere.rotation.y += 0.001;
+    // sphere.rotation.y += 0.001;
     // Update controls
     controls.update()
 
