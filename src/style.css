@@ -5,26 +5,19 @@
     font-size: 12px;
 }
 
+canvas {display: block;}
+
 html,
 body
 {
   font-family: Arial, Helvetica, sans-serif;
   overflow: hidden;
-  color: grey;
+  color: white;
 }
 
-.container{
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  height: calc(100vh - 4rem);
-  padding: 2rem;
-  text-transform: uppercase;
-  position: relative;
-}
-
-.container > * {
-  z-index: 999;
+a {
+  text-decoration: none;
+  color: inherit;
 }
 
 h1 {
@@ -41,15 +34,24 @@ nav{
   justify-content: space-between;
 }
 
-ul {
+li {list-style: none;}
+
+/* HOME PAGE */
+.container{
   display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: calc(100vh - 4rem);
+  padding: 2rem;
+  text-transform: uppercase;
+  position: relative;
 }
 
-li {
-  list-style: none;
+.container > * {
+  z-index: 999;
 }
 
-li:nth-child(2) {
+.container li:nth-child(2) {
   margin-left: 1rem;
 }
 
@@ -66,11 +68,7 @@ li:nth-child(2) {
     outline: none;
 }
 
-.absolute {position:absolute;}
-.top-50 {top:50%}
-.right-0 {right: 0rem;}
-.right-2 {right: 2rem;}
-
+/* LOADING BAR */
 .loading-bar
 {
   position:absolute;
@@ -90,7 +88,72 @@ li:nth-child(2) {
   transition: transform 1.5s ease-in-out;
 }
 
-.active
-{
-  color: white;
+.active{color: white;}
+
+/* ABOUT PAGE */
+.about-grid {
+  display: grid;
+  background-color: black;
+}
+
+.about-grid .contact {
+  text-align: center;
+}
+
+.about-grid .parcour ul {
+  flex-direction: column;
+}
+
+/* CLASS STYLES */
+.flex {display: flex;}
+.justify-center {justify-content: center;}
+.align-center {align-items: center;}
+.absolute {position:absolute;}
+.top-50 {top:50%}
+.right-0 {right: 0rem;}
+.right-2 {right: 2rem;}
+.block {display: block;}
+.mb-1 {margin-bottom: 1rem;}
+
+@media screen and (min-width: 745px){
+
+  .about-grid {
+    max-height: 100vh;
+    height: 100vh;
+    grid-template-columns: 2.5fr 1.5fr 1fr;
+    grid-column-gap: 1rem;
+    padding: 1rem;
+  }
+
+  .about-grid .bio,
+  .about-grid .parcour  {
+    overflow-y: scroll;
+  }
+
+  .about-grid .bio p{
+    font-size: 2.25rem;
+    line-height: 2.5rem;
+    margin-bottom: 2.25rem;
+  }
+
+  .about-grid  .contact > *{
+    flex: 1;
+  }
+
+  .about-grid  .contact p {
+    margin-bottom: 1rem;
+  }
+
+  .about-grid .parcour p{
+    font-size: 1.167rem;
+    margin-bottom: 1.167rem;
+  }
+
+  .about-grid  .parcour h3{
+    font-weight: 400;
+  }
+  .about-grid  .parcour h2{
+    font-weight: 400;
+    margin-bottom: 1rem;
+  }
 }

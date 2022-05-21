@@ -9,51 +9,109 @@
   <div class="container">
     <h1>Nicolas Hermann</h1>
 
-      <ul class="absolute top-50">
-        <li>séries</li>
-        <li>expérience</li>
-      </ul>
+    <ul class="absolute top-50 flex">
+      <li>séries</li>
+      <li>expérience</li>
+    </ul>
 
-      <ul class="absolute top-50 right-2">
-        <li>à propos</li>
-      </ul>
+    <ul class="absolute top-50 right-2">
+      <li><a href="/about.html" data-turbo-action="advance">à propos</a> </li>
+    </ul>
 
-      <video id="video" loop muted="muted" crossOrigin="anonymous" playsinline style="display: none;" >
-        <source src="../static/Boat.mp4" type='video/mp4' >
-      </video>
+    <video class="video" loop muted="muted" crossOrigin="anonymous" playsinline style="display: none;" >
+      <source src="../static/videos/Boat.mp4" type='video/mp4' >
+    </video>
+    <video class="video" loop muted="muted" crossOrigin="anonymous" playsinline style="display: none;" >
+      <source src="../static/videos/Drop.mp4" type='video/mp4' >
+    </video>
+    <video class="video" loop muted="muted" crossOrigin="anonymous" playsinline style="display: none;" >
+      <source src="../static/videos/Embryon.mp4" type='video/mp4' >
+    </video>
+
+    <video class="video" loop muted="muted" crossOrigin="anonymous" playsinline style="display: none;" >
+      <source src="../static/videos/Aquarium.mp4" type='video/mp4' >
+    </video>
+    <video class="video" loop muted="muted" crossOrigin="anonymous" playsinline style="display: none;" >
+      <source src="../static/videos/Avion.mp4" type='video/mp4' >
+    </video>
+    <video class="video" loop muted="muted" crossOrigin="anonymous" playsinline style="display: none;" >
+      <source src="../static/videos/Big-bang.mp4" type='video/mp4' >
+    </video>
+    <video class="video" loop muted="muted" crossOrigin="anonymous" playsinline style="display: none;" >
+      <source src="../static/videos/Birds.mp4" type='video/mp4' >
+    </video>
+    <video class="video" loop muted="muted" crossOrigin="anonymous" playsinline style="display: none;" >
+      <source src="../static/videos/Caoutchoucmetro.mp4" type='video/mp4' >
+    </video>
+    <video class="video" loop muted="muted" crossOrigin="anonymous" playsinline style="display: none;" >
+      <source src="../static/videos/Cequiestencorepresent.mp4" type='video/mp4' >
+    </video>
+    <video class="video" loop muted="muted" crossOrigin="anonymous" playsinline style="display: none;" >
+      <source src="../static/videos/Electricite.mp4" type='video/mp4' >
+    </video>
+    <video class="video" loop muted="muted" crossOrigin="anonymous" playsinline style="display: none;" >
+      <source src="../static/videos/Etoilefilante.mp4" type='video/mp4' >
+    </video>
+    <video class="video" loop muted="muted" crossOrigin="anonymous" playsinline style="display: none;" >
+      <source src="../static/videos/Form.mp4" type='video/mp4' >
+    </video>
+    <video class="video" loop muted="muted" crossOrigin="anonymous" playsinline style="display: none;" >
+      <source src="../static/videos/Medusa_4.mp4" type='video/mp4' >
+    </video>
+    <video class="video" loop muted="muted" crossOrigin="anonymous" playsinline style="display: none;" >
+      <source src="../static/videos/Pare-Brise.mp4" type='video/mp4' >
+    </video>
+    <video class="video" loop muted="muted" crossOrigin="anonymous" playsinline style="display: none;" >
+      <source src="../static/videos/Storm.mp4" type='video/mp4' >
+    </video>
+    <video class="video" loop muted="muted" crossOrigin="anonymous" playsinline style="display: none;" >
+      <source src="../static/videos/Spectre eau.mp4" type='video/mp4' >
+    </video>
+    <video class="video" loop muted="muted" crossOrigin="anonymous" playsinline style="display: none;" >
+      <source src="../static/videos/Rosesauvent.mp4" type='video/mp4' >
+    </video>
+    <video class="video" loop muted="muted" crossOrigin="anonymous" playsinline style="display: none;" >
+      <source src="../static/videos/Riviere.mp4" type='video/mp4' >
+    </video>
+    <video class="video" loop muted="muted" crossOrigin="anonymous" playsinline style="display: none;" >
+      <source src="../static/videos/PavesSeine.mp4" type='video/mp4' >
+    </video>
+
+
 
     <div class="soundbtn">sound on/off</div>
-    <audio src="../static/OlivierMessiaen_Laviergeetlenfant.mp3"></audio>
-  </div>
+      <audio src="../static/OlivierMessiaen_Laviergeetlenfant.mp3"></audio>
+    </div>
+
   <canvas class="webgl"></canvas>
   <div class="loading-bar"></div>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.10.4/gsap.min.js"></script>
   <script>
-    let playbtn = document.querySelector('.soundbtn')
-    let audioElment = document.querySelector('audio')
-    let audioPlaying = true;
-    audioElment.pause();
-    // window.addEventListener("click",  audioElment.play())
-    playbtn.addEventListener("click", playPauseAudio)
+    // let playbtn = document.querySelector('.soundbtn')
+    // let audioElment = document.querySelector('audio')
+    // let audioPlaying = true;
+    // audioElment.pause();
+    // // window.addEventListener("click",  audioElment.play())
+    // playbtn.addEventListener("click", playPauseAudio)
 
-    if(!audioElment.paused){
-      playbtn.classList.add("active")
-    }
+    // if(!audioElment.paused){
+    //   playbtn.classList.add("active")
+    // }
 
-    function playPauseAudio(){
-      if(audioPlaying)
-      {
-        audioElment.pause()
-        audioPlaying = false;
-        playbtn.classList.remove("active")
-        console.log("ispaused",audioElment.paused);
-      } else {
-        audioElment.play()
-        audioPlaying = true;
-        playbtn.classList.add("active")
-        console.log("ispaused",audioElment.paused);
-      }
-    }
+    // function playPauseAudio(){
+    //   if(audioPlaying)
+    //   {
+    //     audioElment.pause()
+    //     audioPlaying = false;
+    //     playbtn.classList.remove("active")
+    //     console.log("ispaused",audioElment.paused);
+    //   } else {
+    //     audioElment.play()
+    //     audioPlaying = true;
+    //     playbtn.classList.add("active")
+    //     console.log("ispaused",audioElment.paused);
+    //   }
+    // }
   </script>
 </body>
 </html>

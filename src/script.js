@@ -1,7 +1,7 @@
 import './style.css'
 import * as THREE from 'three'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
-import * as dat from 'lil-gui'
+import { TrackballControls } from 'three/examples/jsm/controls/TrackballControls.js'
 const gsap = window.gsap;
 
 /**
@@ -70,15 +70,8 @@ const loadingManager = new THREE.LoadingManager(
     loadingBarElement.style.transform = `scaleX( ${progressRatio} )`
   }
 )
-const textureLoader = new THREE.TextureLoader(loadingManager)
 
-function gcd (a, b) {
-  return (b == 0) ? a : gcd (b, a%b);
-}
-var w = screen.width;
-var h = screen.height;
-var r = gcd (w,h);
-// console.log(r, 'aspect :', w/r,":",h/r, "dimension :", w, h);
+const textureLoader = new THREE.TextureLoader(loadingManager)
 
 let myImages = [
   '/sans+titre-2.jpg',
@@ -118,7 +111,6 @@ let myImages = [
   '/sans+titre-37.jpg',
   '/sans+titre-38.jpg',
   '/sans+titre-39.jpg',
-  '/sans+titre-40.jpg',
   '/sans+titre-41.jpg',
   '/sans+titre-42.jpg',
   '/sans+titre-43.jpg',
@@ -131,45 +123,74 @@ let myImages = [
 /**
  * Create Objects
  */
-
-//initial offset so does not start in middle.
-let imgtext = []
+let planeGeometry = new THREE.PlaneGeometry(16, 9);
 let phi = 0
 let theta = 0
-
-let planeGeometry = new THREE.PlaneGeometry(16, 9);
-
 let goldNum = 1.618033988749895
-for (let i = 0; i < myImages.length; i ++) {
-    // Load images as texture
-    imgtext.push(textureLoader.load(myImages[i]))
-    imgtext[i].generateMipmaps = false
+let myVideos = document.querySelectorAll('.video')
+let sphere = new THREE.SphereGeometry( 50, 32, 16 )
 
+function fiboSphere(imgLght, iter, mesh, size) {
+  theta = 2 * Math.PI * iter / goldNum
+  phi = Math.acos(1-2 * (iter + 0.5)/imgLght)
+  let positionSphere = new THREE.Spherical(size, phi, theta)
+
+  mesh.position.setFromSpherical(positionSphere);
+  mesh.lookAt(mesh.position.clone().setLength(3));
+
+  scene.add(mesh);
+}
+
+function imgSphere(elArr){
+  let imgLght = elArr.length
+  let i = 0
+  for(let image of elArr){
+    // Load images as texture
+    let imgText = textureLoader.load(image)
+    imgText.generateMipmaps = false
 
     // Create planeMaterial and map images texture
-    let planeMaterial = new THREE.MeshBasicMaterial({ map: imgtext[i] })
-        planeMaterial.side = THREE.DoubleSide
+    let planeMaterial = new THREE.MeshBasicMaterial({ map: imgText })
+    planeMaterial.side = THREE.DoubleSide
+    let planeMesh  = new THREE.Mesh(planeGeometry, planeMaterial);
+    i += 1
+
+    // Create sphere using finonacci
+    fiboSphere(imgLght, i, planeMesh, 50)
+  }
+}
+
+imgSphere(myImages)
+
+function vidSphere(elArr){
+  let y = 0
+  let imgLght = elArr.length
+
+  for(let vid of elArr){
+    vid.play()
+    let vidTexture = new THREE.VideoTexture(vid)
+    console.log(vid);
+    // Create planeMaterial and map images texture
+    let planeMaterial = new THREE.MeshBasicMaterial({ map: vidTexture })
+    planeMaterial.side = THREE.DoubleSide
     let planeMesh  = new THREE.Mesh(planeGeometry, planeMaterial);
 
+    y += 1
 
-    // Position planes
-    theta = 2 * Math.PI * i / goldNum
-    phi = Math.acos(1-2 * (i+ 0.5)/myImages.length )
-
-    let positionSphere = new THREE.Spherical(50, phi, theta)
-
-    planeMesh.position.setFromSpherical(positionSphere);
-    planeMesh.lookAt(planeMesh.position.clone().setLength(3));
-
-    scene.add(planeMesh);
+    // Create sphere using finonacci
+    fiboSphere(imgLght, y, planeMesh, 35)
+  }
 }
+
+vidSphere(myVideos)
+
 
 /**
  * Sizes
  */
 const sizes = {
-    width: window.innerWidth,
-    height: window.innerHeight
+  width: window.innerWidth,
+  height: window.innerHeight
 }
 
 window.addEventListener('resize', () =>
@@ -196,7 +217,6 @@ window.addEventListener('resize', () =>
  * Camera
  */
 // Base camera
-
 var fov = 45;
 const camera = new THREE.PerspectiveCamera( fov, window.innerWidth / window.innerHeight, 0.05, 1000 );
 camera.position.set(80,80,80); // Set position like this
@@ -205,26 +225,31 @@ scene.add(camera)
 /**
  * Controls
  */
-const controls = new OrbitControls(camera, canvas)
-controls.enableDamping = true // le smooth des mouvements
-controls.dampingFactor = 0.05;
-controls.panSpeed = 35
-controls.enableZoom = true
+// const controls = new OrbitControls(camera, canvas)
+// controls.enableDamping = true // le smooth des mouvements
+// controls.dampingFactor = 0.05;
+// controls.enablePan = false
+// controls.enableZoom = true
 
-// controls.zoomSpeed = 1.2
-controls.maxDistance = 1000
-controls.update()
-
-
-/**
- * GUI
- */
-
+// // controls.zoomSpeed = 1.2
+// controls.maxDistance = 1000
+// controls.update()
 
 /**
- * Fog
+ * TrackBall
  */
+  const trackballcontrols = new TrackballControls(camera, canvas)
 
+  trackballcontrols.staticMoving = false
+  trackballcontrols.dynamicDampingFactor = 0.05;
+  trackballcontrols.noPan = true
+  trackballcontrols.rotateSpeed = 0.5;
+  trackballcontrols.zoomSpeed = 0.5;
+
+  trackballcontrols.maxDistance = 200
+  trackballcontrols.minDistance = 0
+
+  trackballcontrols.update()
 
 /**
  * Renderer
@@ -243,12 +268,10 @@ const clock = new THREE.Clock()
 
 const tick = () =>
 {
-    const elapsedTime = clock.getElapsedTime()
-
-    // sphere.rotation.y += 0.001;
+    // mesh.rotation.y += 0.001;
     // Update controls
-    controls.update()
-
+    // controls.update()
+    trackballcontrols.update()
     // Render
     renderer.render(scene, camera)
 
