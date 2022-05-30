@@ -4,7 +4,7 @@ import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
 import { TrackballControls } from 'three/examples/jsm/controls/TrackballControls.js'
 const gsap = window.gsap;
 import * as dat from 'lil-gui'
-const gui = new dat.GUI()
+// const gui = new dat.GUI()
 import barba from '@barba/core';
 
 barba.init({
