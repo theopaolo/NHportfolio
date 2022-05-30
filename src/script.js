@@ -3,6 +3,25 @@ import * as THREE from 'three'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
 import { TrackballControls } from 'three/examples/jsm/controls/TrackballControls.js'
 const gsap = window.gsap;
+import * as dat from 'lil-gui'
+const gui = new dat.GUI()
+import barba from '@barba/core';
+
+barba.init({
+  transitions: [{
+    name: 'default-transition',
+    leave() {
+      return gsap.to(data.current.container, {
+        opacity: 0
+      });
+    },
+    enter() {
+      return gsap.from(data.next.container, {
+        opacity: 0
+      });
+    }
+  }]
+});
 
 /**
  * Base
@@ -128,7 +147,7 @@ let phi = 0
 let theta = 0
 let goldNum = 1.618033988749895
 let myVideos = document.querySelectorAll('.video')
-let sphere = new THREE.SphereGeometry( 50, 32, 16 )
+const imggroup = new THREE.Group();
 
 function fiboSphere(imgLght, iter, mesh, size) {
   theta = 2 * Math.PI * iter / goldNum
@@ -138,7 +157,7 @@ function fiboSphere(imgLght, iter, mesh, size) {
   mesh.position.setFromSpherical(positionSphere);
   mesh.lookAt(mesh.position.clone().setLength(3));
 
-  scene.add(mesh);
+  imggroup.add(mesh);
 }
 
 function imgSphere(elArr){
@@ -158,31 +177,37 @@ function imgSphere(elArr){
     // Create sphere using finonacci
     fiboSphere(imgLght, i, planeMesh, 50)
   }
+  scene.add(imggroup)
+  imggroup.rotation.x = -0.100;
+  imggroup.rotation.z = 0.0835;
 }
+
+// gui.add(imggroup.rotation , 'x', - 5, 5, 0.01)
+// gui.add(imggroup.rotation , 'z', - 5, 5, 0.01)
+
 
 imgSphere(myImages)
 
-function vidSphere(elArr){
-  let y = 0
-  let imgLght = elArr.length
+// function vidSphere(elArr){
+//   let y = 0
+//   let imgLght = elArr.length
 
-  for(let vid of elArr){
-    vid.play()
-    let vidTexture = new THREE.VideoTexture(vid)
-    console.log(vid);
-    // Create planeMaterial and map images texture
-    let planeMaterial = new THREE.MeshBasicMaterial({ map: vidTexture })
-    planeMaterial.side = THREE.DoubleSide
-    let planeMesh  = new THREE.Mesh(planeGeometry, planeMaterial);
+//   for(let vid of elArr){
+//     vid.play()
+//     let vidTexture = new THREE.VideoTexture(vid)
+//     // Create planeMaterial and map images texture
+//     let planeMaterial = new THREE.MeshBasicMaterial({ map: vidTexture })
+//     planeMaterial.side = THREE.DoubleSide
+//     let planeMesh  = new THREE.Mesh(planeGeometry, planeMaterial);
 
-    y += 1
+//     y += 1
 
-    // Create sphere using finonacci
-    fiboSphere(imgLght, y, planeMesh, 35)
-  }
-}
+//     // Create sphere using finonacci
+//     fiboSphere(imgLght, y, planeMesh, 35)
+//   }
+// }
 
-vidSphere(myVideos)
+// vidSphere(myVideos)
 
 
 /**
@@ -261,6 +286,7 @@ const renderer = new THREE.WebGLRenderer({
 renderer.setSize(sizes.width, sizes.height)
 renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
 
+
 /**
  * Animate
  */
@@ -268,7 +294,7 @@ const clock = new THREE.Clock()
 
 const tick = () =>
 {
-    // mesh.rotation.y += 0.001;
+    imggroup.rotation.y += 0.001;
     // Update controls
     // controls.update()
     trackballcontrols.update()

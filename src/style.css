@@ -1,8 +1,13 @@
 *
 {
-    margin: 0;
-    padding: 0;
-    font-size: 12px;
+  margin: 0;
+  padding: 0;
+  font-size: 12px;
+}
+
+:root{
+  --main-color : grey;
+  --light-color: white;
 }
 
 canvas {display: block;}
@@ -36,6 +41,13 @@ nav{
 
 li {list-style: none;}
 
+button {
+  background-color: unset;
+  border: unset;
+  color: var(--main-color);
+  text-transform: uppercase;
+}
+
 /* HOME PAGE */
 .container{
   display: flex;
@@ -55,9 +67,9 @@ li {list-style: none;}
   margin-left: 1rem;
 }
 
-.soundbtn:hover, h1:hover, li:hover {
+.soundbtn:hover, h1:hover, li:hover, button:hover {
   cursor: pointer;
-  color: white;
+  color: var(--light-color);
 }
 
 .webgl
@@ -90,9 +102,16 @@ li {list-style: none;}
 
 .active{color: white;}
 
+/* MAIN SECTION */
+main {
+  width: 80vw;
+}
+
+
 /* ABOUT PAGE */
 .about-grid {
   display: grid;
+  color: var(--light-color);
   background-color: black;
 }
 
