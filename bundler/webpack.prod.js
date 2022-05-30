@@ -1,5 +1,6 @@
 const { merge } = require('webpack-merge')
 const commonConfiguration = require('./webpack.common.js')
+const HtmlWebpackPlugin = require('html-webpack-plugin')
 const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 
 module.exports = merge(
@@ -8,7 +9,17 @@ module.exports = merge(
         mode: 'production',
         plugins:
         [
-            new CleanWebpackPlugin()
+          new HtmlWebpackPlugin({
+            filename: 'index.html',
+            template: path.resolve(__dirname, '../src/index.html'),
+            minify: true
+          }),
+          new HtmlWebpackPlugin({
+              filename: 'about.html',
+              template: path.resolve(__dirname, '../src/about.html'),
+              minify: true
+          }),
+          new CleanWebpackPlugin()
         ]
     }
 )
